@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { api } from '../lib/api';
@@ -7,6 +7,8 @@ import cleanstreetVideo from '../assets/cleanstreet.mp4';
 
 function LandingPage() {
     const [stats, setStats] = useState({ volunteers: 0, citizens: 0, total: 0 });
+    const [isFooterVisible, setIsFooterVisible] = useState(false);
+    const footerRef = useRef(null);
 
     useEffect(() => {
         // Explicitly set body theme to light for the landing page body
@@ -33,6 +35,24 @@ function LandingPage() {
             }
             document.body.classList.remove('no-scrollbar');
         };
+    }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsFooterVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '200px' }
+        );
+
+        if (footerRef.current) {
+            observer.observe(footerRef.current);
+        }
+
+        return () => observer.disconnect();
     }, []);
 
     // Animation variants
@@ -81,20 +101,13 @@ function LandingPage() {
                     <video 
                         className="hero-video"
                         src={cleanstreetVideo}
-                        poster="/hero.png"
                         autoPlay
                         loop
                         muted
-                        defaultMuted
                         playsInline
+                        preload="auto"
                         role="none"
                         aria-hidden="true"
-                        ref={(el) => {
-                            if (el) {
-                                el.muted = true;
-                                el.play().catch(err => console.log("Hero video autoplay failed/blocked:", err));
-                            }
-                        }}
                     />
                     <div className="hero-overlay"></div>
                 </div>
@@ -331,26 +344,22 @@ function LandingPage() {
             </div>
 
             {/* Custom Premium Footer with Video Background */}
-            <footer className="position-relative overflow-hidden pt-5 pb-4 text-white" data-bs-theme="dark" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            <footer ref={footerRef} className="position-relative overflow-hidden pt-5 pb-4 text-white" data-bs-theme="dark" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                 {/* Video Background */}
                 <div className="footer-video-wrapper">
-                    <video 
-                        className="footer-video"
-                        src={cleanstreetVideo}
-                        autoPlay
-                        loop
-                        muted
-                        defaultMuted
-                        playsInline
-                        role="none"
-                        aria-hidden="true"
-                        ref={(el) => {
-                            if (el) {
-                                el.muted = true;
-                                el.play().catch(err => console.log("Footer video autoplay failed/blocked:", err));
-                            }
-                        }}
-                    />
+                    {isFooterVisible && (
+                        <video 
+                            className="footer-video"
+                            src={cleanstreetVideo}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            role="none"
+                            aria-hidden="true"
+                        />
+                    )}
                     <div className="footer-overlay"></div>
                 </div>
 
