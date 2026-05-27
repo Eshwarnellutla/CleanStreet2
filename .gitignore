@@ -34,3 +34,9 @@ lerna-debug.log*
 
 # Temporary files
 *.tmp
+# Build files
+dist/
+
+# OS files
+.DS_Store
+tests/

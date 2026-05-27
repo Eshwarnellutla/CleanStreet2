@@ -242,7 +242,6 @@ function Login({ onLogin, getDashboardRoute }) {
                     <GoogleLogin
                         onSuccess={handleGoogleSuccess}
                         onError={handleGoogleError}
-                        useOneTap
                         theme="filled_blue"
                         shape="pill"
                         text="signin_with"

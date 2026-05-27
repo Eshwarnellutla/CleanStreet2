@@ -10,6 +10,7 @@ const PublicNavbar = () => {
         <nav
             className={`navbar navbar-expand-lg fixed-top ${isLandingPage ? 'border-0 shadow-none' : 'border-bottom shadow-sm'}`}
             style={{
+                position: 'fixed',
                 zIndex: 1000,
                 transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
                 height: 'auto',

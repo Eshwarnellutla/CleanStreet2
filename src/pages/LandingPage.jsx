@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { api } from '../lib/api';
 import PublicNavbar from '../components/PublicNavbar';
+import cleanstreetVideo from '../assets/cleanstreet.mp4';
 
 function LandingPage() {
     const [stats, setStats] = useState({ volunteers: 0, citizens: 0, total: 0 });
@@ -71,21 +72,31 @@ function LandingPage() {
 
     return (
         <div className="landing-page-root w-100 overflow-hidden no-scrollbar" style={{ background: '#000', maxWidth: '100vw' }}>
-            <div className="bg-black">
-                <PublicNavbar />
-            </div>
+            <PublicNavbar />
             
             {/* Hero Section - Explicitly Dark & Seamless */}
             <main className="position-relative overflow-hidden vh-100 d-flex align-items-center" data-bs-theme="dark" style={{ background: '#000' }}>
                 {/* Video Background */}
                 <div className="hero-video-wrapper">
+                    <video 
+                        className="hero-video"
+                        src={cleanstreetVideo}
+                        poster="/hero.png"
+                        autoPlay
+                        loop
+                        muted
+                        defaultMuted
+                        playsInline
+                        role="none"
+                        aria-hidden="true"
+                        ref={(el) => {
+                            if (el) {
+                                el.muted = true;
+                                el.play().catch(err => console.log("Hero video autoplay failed/blocked:", err));
+                            }
+                        }}
+                    />
                     <div className="hero-overlay"></div>
-                    <iframe 
-                        className="hero-video-iframe"
-                        src="https://www.youtube.com/embed/W0LHTWG-UmQ?autoplay=1&mute=1&controls=0&loop=1&playlist=W0LHTWG-UmQ&showinfo=0&rel=0&iv_load_policy=3" 
-                        allow="autoplay; encrypted-media"
-                        title="City Video Background"
-                    ></iframe>
                 </div>
 
                 <div className="container h-100 d-flex align-items-center justify-content-center position-relative" style={{ zIndex: 10 }}>
@@ -98,8 +109,13 @@ function LandingPage() {
                         <div className="col-lg-10">
                             <motion.span 
                                 variants={fadeInUp}
-                                className="badge rounded-pill bg-primary bg-opacity-20 text-white mb-4 px-3 py-2 border border-primary border-opacity-30"
-                                style={{ backdropFilter: 'blur(10px)', letterSpacing: '0.15em', fontSize: '0.75rem', fontWeight: 'bold' }}
+                                className="badge rounded-pill text-white mb-4 px-3 py-2 border hero-badge-animated"
+                                style={{ 
+                                    backdropFilter: 'blur(10px)', 
+                                    letterSpacing: '0.15em', 
+                                    fontSize: '0.75rem', 
+                                    fontWeight: 'bold' 
+                                }}
                             >
                                 CIVIC ENGAGEMENT REDEFINED
                             </motion.span>
@@ -313,6 +329,148 @@ function LandingPage() {
                     </div>
                 </section>
             </div>
+
+            {/* Custom Premium Footer with Video Background */}
+            <footer className="position-relative overflow-hidden pt-5 pb-4 text-white" data-bs-theme="dark" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                {/* Video Background */}
+                <div className="footer-video-wrapper">
+                    <video 
+                        className="footer-video"
+                        src={cleanstreetVideo}
+                        autoPlay
+                        loop
+                        muted
+                        defaultMuted
+                        playsInline
+                        role="none"
+                        aria-hidden="true"
+                        ref={(el) => {
+                            if (el) {
+                                el.muted = true;
+                                el.play().catch(err => console.log("Footer video autoplay failed/blocked:", err));
+                            }
+                        }}
+                    />
+                    <div className="footer-overlay"></div>
+                </div>
+
+                <div className="container position-relative" style={{ zIndex: 10 }}>
+                    <motion.div 
+                        className="row g-5 py-5"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        variants={staggerContainer}
+                    >
+                        {/* Brand and Impact Statement */}
+                        <div className="col-lg-4 col-md-6">
+                            <motion.div variants={fadeInUp} className="d-flex align-items-center gap-2 mb-3">
+                                <span className="d-inline-flex p-2 rounded-3 bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30">
+                                    <i className="bi bi-geo-alt-fill fs-4 text-white"></i>
+                                </span>
+                                <h3 className="fw-bold mb-0 text-white tracking-tight" style={{ fontSize: '1.6rem' }}>
+                                    Clean<span className="text-primary">Street</span>
+                                </h3>
+                            </motion.div>
+                            <motion.p variants={fadeInUp} className="text-muted mb-4 opacity-75" style={{ fontSize: '0.95rem', lineHeight: '1.6', maxWidth: '320px' }}>
+                                Empowering communities to collaborate, report, and build cleaner, smarter, and more resilient urban spaces.
+                            </motion.p>
+                            <motion.div variants={fadeInUp} className="d-flex gap-3">
+                                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="footer-social-btn hover-lift" aria-label="Twitter">
+                                    <i className="bi bi-twitter-x"></i>
+                                </a>
+                                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="footer-social-btn hover-lift" aria-label="GitHub">
+                                    <i className="bi bi-github"></i>
+                                </a>
+                                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer-social-btn hover-lift" aria-label="LinkedIn">
+                                    <i className="bi bi-linkedin"></i>
+                                </a>
+                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-social-btn hover-lift" aria-label="Instagram">
+                                    <i className="bi bi-instagram"></i>
+                                </a>
+                            </motion.div>
+                        </div>
+
+                        {/* Quick Navigation Column */}
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <motion.h4 variants={fadeInUp} className="text-white fw-bold mb-4 fs-6 text-uppercase tracking-wider">Explore</motion.h4>
+                            <motion.ul variants={fadeInUp} className="list-unstyled d-flex flex-column gap-3 mb-0">
+                                <li>
+                                    <a href="#" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Home</a>
+                                </li>
+                                <li>
+                                    <a href="#how-it-works" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>How It Works</a>
+                                </li>
+                                <li>
+                                    <a href="#stats" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Our Impact</a>
+                                </li>
+                                <li>
+                                    <Link to="/map" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Live Map</Link>
+                                </li>
+                                <li>
+                                    <Link to="/complaints" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Public Reports</Link>
+                                </li>
+                            </motion.ul>
+                        </div>
+
+                        {/* Civic Services Column */}
+                        <div className="col-lg-3 col-md-6 col-6">
+                            <motion.h4 variants={fadeInUp} className="text-white fw-bold mb-4 fs-6 text-uppercase tracking-wider">Report Issues</motion.h4>
+                            <motion.ul variants={fadeInUp} className="list-unstyled d-flex flex-column gap-3 mb-0">
+                                <li>
+                                    <Link to="/report-issue" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Sanitation & Waste</Link>
+                                </li>
+                                <li>
+                                    <Link to="/report-issue" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Potholes & Roads</Link>
+                                </li>
+                                <li>
+                                    <Link to="/report-issue" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Broken Streetlights</Link>
+                                </li>
+                                <li>
+                                    <Link to="/report-issue" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Water Leakage</Link>
+                                </li>
+                                <li>
+                                    <Link to="/report-issue" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Other Civic Faults</Link>
+                                </li>
+                            </motion.ul>
+                        </div>
+
+                        {/* Community Involvement Column */}
+                        <div className="col-lg-3 col-md-6">
+                            <motion.h4 variants={fadeInUp} className="text-white fw-bold mb-4 fs-6 text-uppercase tracking-wider">Get Involved</motion.h4>
+                            <motion.ul variants={fadeInUp} className="list-unstyled d-flex flex-column gap-3 mb-4">
+                                <li>
+                                    <Link to="/signup" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Join as a Citizen</Link>
+                                </li>
+                                <li>
+                                    <Link to="/signup" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Volunteer Portal</Link>
+                                </li>
+                                <li>
+                                    <Link to="/login" className="text-muted hover-lift d-inline-block text-decoration-none" style={{ fontSize: '0.9rem' }}>Partner Portal</Link>
+                                </li>
+                            </motion.ul>
+                            <motion.div variants={fadeInUp} className="p-3 rounded-premium bg-white bg-opacity-5 border border-white border-opacity-10 backdrop-blur" style={{ backdropFilter: 'blur(10px)' }}>
+                                <small className="d-block text-white fw-bold mb-2">Need immediate help?</small>
+                                <p className="text-muted small mb-0 opacity-75">
+                                    Visit our support center or contact your local municipal administrator.
+                                </p>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+
+                    {/* Bottom Metadata Bar */}
+                    <div className="border-top border-white border-opacity-10 pt-4 mt-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                        <p className="text-muted small mb-0 opacity-75">
+                            &copy; {new Date().getFullYear()} CleanStreet. All rights reserved.
+                        </p>
+                        <div className="d-flex gap-4">
+                            <a href="#" className="text-muted small hover-lift text-decoration-none opacity-75">Privacy Policy</a>
+                            <a href="#" className="text-muted small hover-lift text-decoration-none opacity-75">Terms of Service</a>
+                            <a href="#" className="text-muted small hover-lift text-decoration-none opacity-75">Security Guidelines</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 }
